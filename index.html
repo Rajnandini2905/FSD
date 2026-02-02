@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie OTT Platform</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* --- INTERNAL CSS --- */
+        :root {
+            --black: #000000;
+            --color-background-bold: #080808;
+            --color-background: #131313;
+            --color-background-secondary: #232323;
+            --color-secondary: #737373;
+            --color-primary: #ff4d4d;
+            --font-headlines: "Anton", sans-serif;
+            --font-text: "Work Sans", sans-serif;
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,800|Anton:400");
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-background-bold);
+            color: white;
+            font-family: var(--font-text);
+            overflow-x: hidden;
+        }
+
+        #main-viewport {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Sidebar Navigation - Responsive Design */
+        .sidebar-menu-1 {
+            align-items: center;
+            background-color: var(--color-background);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100px;
+            z-index: 100;
+            border-right: 1px solid #333;
+        }
+
+        .indi-logo-1 { height: 35px; margin-top: 30px; margin-bottom: 40px; }
+        .nav-icon { cursor: pointer; color: white; margin-bottom: 30px; font-size: 20px; transition: 0.3s; }
+        .nav-icon:hover { color: var(--color-primary); transform: scale(1.2); }
+
+        /* Content Container */
+        .group-7 {
+            margin-left: 100px; /* Offset for desktop sidebar */
+            z-index: 2;
+        }
+
+        /* Top Action Bar */
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 30px;
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .dropdown { position: relative; display: inline-block; margin-right: 15px; }
+        .dropbtn { background: none; border: none; color: white; cursor: pointer; font-weight: 500; font-size: 14px; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--color-background-secondary);
+            min-width: 140px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        .dropdown-content a {
+            color: white; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px;
+        }
+        .dropdown-content a:hover { background-color: var(--color-primary); }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .btn-signin {
+            padding: 5px 20px;
+            border: 2px solid var(--color-primary);
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero-container-1 {
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('yjhdbg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            padding-left: 60px;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 600px; padding: 20px; }
+        .main-title { font-family: var(--font-headlines); font-size: 4rem; line-height: 1; margin-bottom: 15px; }
+
+        /* Movie Grids */
+        .container-films { padding: 40px 30px; }
+        .section-title { color: white; font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+        
+        /* Grid system for movies */
+        .flex-row-6 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+
+        .film-thumb {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .film-thumb:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--color-primary); }
+
+        /* Pricing Table */
+        .pricing-section { padding: 60px 30px; background-color: var(--color-background); }
+        table { width: 100%; color: white; }
+        th, td { padding: 15px; border-bottom: 1px solid #333; }
+
+        /* Footer */
+        .container-promotion-1 {
+            background-color: var(--color-background-bold);
+            padding: 60px 30px;
+        }
+
+        /* --- MEDIA QUERIES FOR MOBILE/TABLET --- */
+        
+        @media (max-width: 992px) {
+            .flex-row-6 { grid-template-columns: repeat(3, 1fr); } /* 3 columns on tablets */
+            .main-title { font-size: 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            /* Move Sidebar to Bottom on Mobile */
+            .sidebar-menu-1 {
+                flex-direction: row;
+                height: 60px;
+                width: 100%;
+                bottom: 0;
+                top: auto;
+                justify-content: space-around;
+                padding: 0 10px;
+                border-right: none;
+                border-top: 1px solid #333;
+            }
+            .indi-logo-1 { display: none; } /* Hide logo in mobile bottom bar */
+            .nav-icon { margin-bottom: 0; }
+            
+            .group-7 { margin-left: 0; margin-bottom: 60px; } /* Remove sidebar offset */
+            .hero-container-1 { padding-left: 20px; justify-content: center; text-align: center; }
+            .flex-row-6 { grid-template-columns: repeat(2, 1fr); } /* 2 columns on phones */
+            
+            .container-promotion-1 { flex-direction: column; text-align: center; }
+            .container-promotion-1 div { margin: 0 auto 20px; max-width: 100% !important; }
+        }
+    </style>
+</head>
+<body id="main-viewport">
+
+    <div class="sidebar-menu-1">
+        <img class="indi-logo-1" src="https://anima-uploads.s3.amazonaws.com/projects/6165b3e879c1baabe259dd1f/releases/6239bb1d36ba6a8f50b22449/img/indi-logo-1@2x.png" />
+        <div class="nav-icon">🔍</div>
+        <div class="nav-icon">🏠</div>
+        <div class="nav-icon">📺</div>
+        <div class="nav-icon">👤</div>
+    </div>
+
+    <div class="group-7">
+        <header class="top-nav">
+            <div class="dropdown">
+                <button class="dropbtn">Browse ▼</button>
+                <div class="dropdown-content">
+                    <a href="#">Action</a>
+                    <a href="#">Drama</a>
+                    <a href="#">Comedy</a>
+                    <a href="#">Horror</a>
+                </div>
+            </div>
+            <a href="signin.html" class="btn-signin">SIGN IN</a>
+        </header>
+
+        <section class="hero-container-1">
+            <div class="hero-content">
+                <h1 class="main-title">Yeh Jawaani hai Deewani</h1>
+                <p class="mb-2" style="color: var(--color-secondary); font-size: 14px;">Adventure, Fantasy | 2013 | 2h 40min.</p>
+                <p class="d-none d-md-block" style="font-size: 16px; font-weight: 300; line-height: 1.6;">A journey of friendship, dreams, and self-discovery set across life and love.</p>
+                
+                <div class="mt-4">
+                    <a href="https://www.netflix.com/search?q=yeh%20&jbv=70276515" target="_blank" 
+                       style="display: inline-flex; background: var(--color-primary); border-radius: 40px; padding: 12px 35px; text-decoration: none; color: white; font-weight: bold;">
+                       Watch Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-films">
+            <div class="section-title">Recently Added Films</div>
+            <div class="flex-row-6">
+                <img class="film-thumb" src="taskaree.jpg" data-link="https://www.netflix.com/watch/81406419">
+                <img class="film-thumb" src="stranger_things.jpg" data-link="https://www.netflix.com/watch/80077368?trackId=14277283&tctx=-97%2C-97%2C%2C%2C%2C%2C%2C%2C80057281%2CVideo%3A80077368%2CdetailsPageEpisodePlayButton">
+                <img class="film-thumb" src="de_de_pyaar_de.avif" data-link="https://www.netflix.com/watch/81713690">
+                <img class="film-thumb" src="manifest.jpg" data-link="https://www.netflix.com/search?q=mani&jbv=80241318">
+                <img class="film-thumb" src="haq.jpg" data-link="https://www.netflix.com/search?q=haq&jbv=82085150">
+                <img class="film-thumb" src="money-heist.jpg" data-link="https://www.netflix.com/search?q=mo&jbv=80192098">
+            </div>
+        </section>
+
+        <section class="pricing-section">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <h3>Exclusive Benefits</h3>
+                        <ul class="benefits-list">
+                            <li>Unlimited 4K Streaming</li>
+                            <li>No Ads ever</li>
+                            <li>Download to your mobile</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Plan</th>
+                                        <th>Resolution</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Basic</td>
+                                        <td>720p</td>
+                                        <td>$9.99</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: var(--color-primary); font-weight: bold;">Ultra</td>
+                                        <td style="color: var(--color-primary);">4K + HDR</td>
+                                        <td style="color: var(--color-primary);">$19.99</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="container-promotion-1">
+            <div class="row align-items-center">
+                <div class="col-md-7 mb-4 mb-md-0 text-center text-md-start">
+                    <h2 style="font-weight: 800; font-size: 32px;">Stay Connected</h2>
+                    <p>Get the latest movie news from INDI.</p>
+                    <form class="d-flex flex-column flex-sm-row mt-3 justify-content-center justify-content-md-start">
+                        <input type="email" class="email-input mb-3 mb-sm-0" placeholder="Your Email" required style="border-bottom: 2px solid white;">
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 ms-sm-2">Subscribe</button>
+                    </form>
+                </div>
+                <div class="col-md-5">
+                    <div style="width: 100%; height: 200px; background: url('https://media.giphy.com/media/l6mBchxYZc7Sw/giphy.gif') center/cover; border-radius: 10px;"></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.querySelectorAll(".film-thumb").forEach(img => {
+            img.addEventListener("click", () => {
+                const link = img.getAttribute("data-link");
+                if (link) window.open(link, "_blank");
+            });
+        });
+    </script>
+</body>
+</html>
